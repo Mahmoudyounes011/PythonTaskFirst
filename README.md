@@ -19,7 +19,7 @@ A RESTful API for managing student records using Flask and MySQL.
 
 ### Installation
 ```bash
-git clone https://github.com/yourusername/student-api.git
+git clone https://github.com/Mahmoudyounes011/PythonTaskFirst.git
 cd student-api
 python -m venv venv
 source venv/bin/activate  # On Windows: venv\Scripts\activate
