@@ -1,26 +1,34 @@
-# Student Management API
+# Student Management API with Authentication
 
-A RESTful API for managing student records using Flask and MySQL.
+A secure RESTful API for managing student records and user authentication using Flask, MySQL, and JWT.
 
 ## Features
-- Create new student records
-- Retrieve all students
-- Get student by ID
-- MySQL database integration
-- Error handling and validation
+- ✅ User Authentication (Register/Login/Logout)
+- 🔑 JWT Token-based Authorization
+- 📧 Welcome Email Notification on Login
+- 🗄️ Student CRUD Operations
+- 🛡️ Token Revocation System
+- 🚨 Comprehensive Error Handling
+- 📊 MySQL Database Integration
+- 🔄 Refresh Token Mechanism
 
 ## Quick Start
 
 ### Prerequisites
 - Python 3.8+
-- MySQL Server
+- MySQL Server 8.0+
 - Git
-- Postman (for testing)
+- Postman (for API testing)
+- SMTP Email Service (e.g., Gmail)
 
 ### Installation
 ```bash
 git clone https://github.com/Mahmoudyounes011/PythonTaskFirst.git
 cd student-api
+
+# Create and activate virtual environment
 python -m venv venv
-source venv/bin/activate  # On Windows: venv\Scripts\activate
+source venv/bin/activate  # Windows: venv\Scripts\activate
+
+# Install dependencies
 pip install -r requirements.txt
