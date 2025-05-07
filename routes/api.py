@@ -1,13 +1,14 @@
 from flask import Blueprint, request, jsonify
 from models.student import Student
+from flask_jwt_extended import jwt_required
 
 api = Blueprint('api', __name__)
 
 @api.route('/students', methods=['POST'])
+@jwt_required()
 def create_student():
     data = request.get_json()
     
-  
     required_fields = ['first_name', 'last_name', 'age', 'specialization']
     if not all(field in data for field in required_fields):
         return jsonify({
@@ -34,6 +35,7 @@ def create_student():
         }), 400
 
 @api.route('/students', methods=['GET'])
+@jwt_required()
 def get_students():
     try:
         students = Student.get_all()
@@ -49,6 +51,7 @@ def get_students():
         }), 500
 
 @api.route('/students/<int:student_id>', methods=['GET'])
+@jwt_required()
 def get_student(student_id):
     try:
         student = Student.get_by_id(student_id)
