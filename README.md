@@ -19,7 +19,7 @@ A secure RESTful API for managing student records and user authentication using 
 - MySQL Server 8.0+
 - Git
 - Postman (for API testing)
-- SMTP Email Service (e.g., Gmail)
+- SMTP Email Service (mailTrap)
 
 ### Installation
 ```bash
