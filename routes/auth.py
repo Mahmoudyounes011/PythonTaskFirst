@@ -10,6 +10,7 @@ from models.user import User
 from models.revoked_token import RevokedToken
 from flask_mail import Message
 from utils.emails import send_welcome_email
+
 #from app import mail 
 
 mail = None  # سيتم حقنه من app.py

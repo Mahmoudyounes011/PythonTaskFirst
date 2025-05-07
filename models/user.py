@@ -46,3 +46,19 @@ class User:
     @staticmethod
     def verify_password(stored_pw, input_pw):
         return bcrypt.checkpw(input_pw.encode('utf-8'), stored_pw.encode('utf-8'))
+    
+    @staticmethod
+    def get_by_id(user_id):
+        conn = get_db()
+        cursor = conn.cursor(dictionary=True)
+        try:
+            cursor.execute('SELECT * FROM users WHERE id = %s', (user_id,))
+            user = cursor.fetchone()
+            if not user:
+                raise ValueError("User not found")
+            return user
+        except mysql.connector.Error as err:
+            raise Exception(f"Database error: {err.msg}")
+        finally:
+            cursor.close()
+            conn.close()
