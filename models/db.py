@@ -27,7 +27,7 @@ def init_db(app):
             
         ''')
         
-          # Create users table
+        # Create users table
         cursor.execute('''
             CREATE TABLE IF NOT EXISTS users (
                 id INT AUTO_INCREMENT PRIMARY KEY,
@@ -46,6 +46,19 @@ def init_db(app):
                 id INT AUTO_INCREMENT PRIMARY KEY,
                 jti VARCHAR(36) NOT NULL UNIQUE,
                 revoked_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+            )
+        ''')
+        
+        cursor.execute('''
+            CREATE TABLE IF NOT EXISTS todos (
+                id INT AUTO_INCREMENT PRIMARY KEY,
+                title VARCHAR(100) NOT NULL,
+                description TEXT,
+                completed BOOLEAN DEFAULT FALSE,
+                created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                user_id INT NOT NULL,
+                FOREIGN KEY (user_id) REFERENCES users(id)
+                ON DELETE CASCADE
             )
         ''')
         conn.commit()

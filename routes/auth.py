@@ -13,7 +13,7 @@ from utils.emails import send_welcome_email
 
 #from app import mail 
 
-mail = None  # سيتم حقنه من app.py
+mail = None  
 
 def init_mail(m):
     global mail
@@ -79,16 +79,13 @@ def refresh():
 @jwt_required()
 def profile():
     try:
-        # Get user identity from JWT token
         user_id = get_jwt_identity()
         
-        # Fetch user from database
         user = User.get_by_id(user_id)
         
         if not user:
             return jsonify({"error": "User not found"}), 404
         
-        # Return user info (excluding sensitive data)
         return jsonify({
             "id": user['id'],
             "first_name": user['first_name'],
