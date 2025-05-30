@@ -15,10 +15,6 @@ def init_db(app):
         cursor = conn.cursor()
         
         
-        cursor.execute("DROP TABLE IF EXISTS tasks")
-        cursor.execute("DROP TABLE IF EXISTS projects")
-        cursor.execute("DROP TABLE IF EXISTS users")
-        
         # Create users table
         cursor.execute('''
             CREATE TABLE IF NOT EXISTS users (
