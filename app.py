@@ -1,12 +1,12 @@
 from flask import Flask
 from config import Config
 from models.db import init_db
-from routes.api import api
 from flask_jwt_extended import JWTManager
 from routes.auth import auth_bp, init_mail
 from models.revoked_token import RevokedToken
 from flask_mail import Mail
-from routes.todos import todos
+from routes.project import project_api
+from routes.task import task_api
 
 mail = Mail() 
 
@@ -17,7 +17,7 @@ def create_app():
     
     init_db(app)
     
-    app.register_blueprint(api, url_prefix='/api')
+    
     
     # Basic health check
     @app.route('/health')
@@ -31,7 +31,9 @@ def create_app():
         return RevokedToken.is_jti_blacklisted(jti)
 
     app.register_blueprint(auth_bp, url_prefix='/api/auth')
-    app.register_blueprint(todos, url_prefix='/api')
+    app.register_blueprint(project_api, url_prefix='/api/project')
+    app.register_blueprint(task_api, url_prefix='/api/task')
+
 
 
     mail.init_app(app)   

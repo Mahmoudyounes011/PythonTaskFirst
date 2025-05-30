@@ -15,17 +15,9 @@ def init_db(app):
         cursor = conn.cursor()
         
         
-        cursor.execute('''
-            CREATE TABLE IF NOT EXISTS students (
-                id INT AUTO_INCREMENT PRIMARY KEY,
-                first_name VARCHAR(50) NOT NULL,
-                last_name VARCHAR(50) NOT NULL,
-                age INT NOT NULL,
-                specialization VARCHAR(100) NOT NULL,
-                created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-            )
-            
-        ''')
+        cursor.execute("DROP TABLE IF EXISTS tasks")
+        cursor.execute("DROP TABLE IF EXISTS projects")
+        cursor.execute("DROP TABLE IF EXISTS users")
         
         # Create users table
         cursor.execute('''
@@ -37,6 +29,7 @@ def init_db(app):
                 phone_number VARCHAR(20) UNIQUE NOT NULL,
                 password VARCHAR(255) NOT NULL,
                 address TEXT NOT NULL,
+                is_admin BOOLEAN DEFAULT FALSE,
                 created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
             )
         ''')
@@ -48,19 +41,36 @@ def init_db(app):
                 revoked_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
             )
         ''')
+
+        cursor.execute('''
+            CREATE TABLE IF NOT EXISTS projects (
+                id INT AUTO_INCREMENT PRIMARY KEY,
+                name VARCHAR(100) NOT NULL,
+                description TEXT,
+                created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                created_by INT NOT NULL,
+                FOREIGN KEY (created_by) REFERENCES users(id) ON DELETE CASCADE
+            )
+        ''')
         
         cursor.execute('''
-            CREATE TABLE IF NOT EXISTS todos (
+            CREATE TABLE IF NOT EXISTS tasks (
                 id INT AUTO_INCREMENT PRIMARY KEY,
                 title VARCHAR(100) NOT NULL,
                 description TEXT,
-                completed BOOLEAN DEFAULT FALSE,
+                status ENUM('pending', 'in_progress', 'completed') DEFAULT 'pending',
                 created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-                user_id INT NOT NULL,
-                FOREIGN KEY (user_id) REFERENCES users(id)
-                ON DELETE CASCADE
+                due_date DATETIME,  
+                project_id INT NOT NULL,
+                created_by INT NOT NULL,
+                assigned_to INT NOT NULL,
+                FOREIGN KEY (project_id) REFERENCES projects(id) ON DELETE CASCADE,
+                FOREIGN KEY (created_by) REFERENCES users(id) ON DELETE CASCADE,
+                FOREIGN KEY (assigned_to) REFERENCES users(id) ON DELETE CASCADE
             )
         ''')
+
+
         conn.commit()
         cursor.close()
         conn.close()

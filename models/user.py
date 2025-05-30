@@ -9,18 +9,21 @@ class User:
         cursor = conn.cursor(dictionary=True)
         try:
             hashed_pw = bcrypt.hashpw(user_data['password'].encode('utf-8'), bcrypt.gensalt())
+
+            is_admin = user_data.get('is_admin', 0)  
             
             cursor.execute('''
                 INSERT INTO users 
-                (first_name, last_name, email, phone_number, password, address)
-                VALUES (%s, %s, %s, %s, %s, %s)
+                (first_name, last_name, email, phone_number, password, address, is_admin)
+                VALUES (%s, %s, %s, %s, %s, %s, %s)
             ''', (
                 user_data['first_name'],
                 user_data['last_name'],
                 user_data['email'],
                 user_data['phone_number'],
-                hashed_pw,
-                user_data['address']
+                hashed_pw.decode('utf-8'),
+                user_data['address'],
+                is_admin
             ))
             
             conn.commit()
